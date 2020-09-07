@@ -32,13 +32,13 @@ def usage():
      -s use https
      user-help:
      one2one mode example: python3 checkIP2Port.py -i 1.1.1.1 -p 80
-     one2more mode example: python3 checkIP2Port.py -i 1.1.1.1 -pF=<portFile>
-     more2one mode example: python3 checkIP2Port.py -iF=<ipFile> -p 80
-     more2more mode example: python3 checkIP2Port.py -iF=<ipFile> -pF=<portFile>
+     one2more mode example: python3 checkIP2Port.py -i 1.1.1.1 --pF=<portFile>
+     more2one mode example: python3 checkIP2Port.py --iF=<ipFile> -p 80
+     more2more mode example: python3 checkIP2Port.py --iF=<ipFile> --pF=<portFile>
      masscan -oG result file : python3 checkIP2Port.py --mass=<result film>
      Example:
-     python3 checkIP2Port.py -ip 1.1.1.1 -pF=./portList.txt
-     python3 checkIP2Port.py -iF=./ipList.txt -pF=./portList.txt
+     python3 checkIP2Port.py -i 1.1.1.1 --pF=./portList.txt
+     python3 checkIP2Port.py --iF=./ipList.txt --pF=./portList.txt
      python3 checkIP2Port.py --mass=./result.txt -v
      >>>>>>>>>>
     """
@@ -78,9 +78,9 @@ def one2one(ip, port, isHttps):
     parser = BeautifulSoup(resp.text, "html.parser")
     if parser.title is not None:
         return print(
-            "Result: Address: {} Code: {} title: {}".format(ip + ":" + port, resp.status_code, parser.title.string))
+            "Result: Address: {} \033[33mCode: {} title: {}\033[0m".format(ip + ":" + port, resp.status_code, parser.title.string))
     else:
-        return print("Result: Address: {} Code: {} ".format(ip + ":" + port, resp.status_code))
+        return print("Result: Address: {} \033[33mCode: {} \033[0m".format(ip + ":" + port, resp.status_code))
 
 
 def one2more(ip, portFile, isHttps, detail):
@@ -144,7 +144,7 @@ def parseParam2Execute():
             ip = arg
         if op == "-p":
             port = arg
-        if op == "-iF":
+        if op == "--iF":
             ipFile = arg
         if op == "--pF":
             portFile = arg
